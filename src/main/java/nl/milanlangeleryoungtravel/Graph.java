@@ -13,6 +13,7 @@ public class Graph extends HashMap<Node, ArrayList<Edge>> {
     public static final String BUS = "bus";
     public static final String TREIN = "trein";
 
+
     /**
      * Add a new node to the graph and secondly make a list of all the possible connected nodes and edges in between
      * @param node new Node to enter the graph
@@ -21,6 +22,12 @@ public class Graph extends HashMap<Node, ArrayList<Edge>> {
         ArrayList<Edge> edges = new ArrayList<>();
         this.put(node, edges);
         //System.out.print("added "+node.getName());
+    }
+
+    public void replaceNode(Node node){
+        ArrayList<Edge> edgeList = this.get(node);
+        this.remove(node);
+        this.put(node, edgeList);
     }
 
     /**

@@ -28,9 +28,19 @@ public class Edge {
      * destination getter
      * @return destination as a String
      */
-    public String getDestination(){
+    public String getDestinationName(){
         return destination.getName();
     }
+
+    public Node getDestination() { return destination; }
+
+    public Node getSource(){ return source; }
+
+    public int getTime(){ return time; }
+
+    public String getMethod(){ return method; }
+
+    public String toString(){ return " in de " + method + " voor " + time + " minuten naar " + destination.getName();}
 
 
 }
