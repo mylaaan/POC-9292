@@ -8,23 +8,18 @@ import java.util.List;
  * The class that will represent the graph itself and it structures build from Nodes and Edges.
  * This will also be cleaner than a random list floating around.
  */
-public class Graph {
+public class Graph extends HashMap<Node, ArrayList<Edge>> {
 
-    private HashMap<Node, List<Edge>> graph;
     public static final String BUS = "bus";
     public static final String TREIN = "trein";
-
-    public Graph() {
-        graph = new HashMap<Node, List<Edge>>();
-    }
 
     /**
      * Add a new node to the graph and secondly make a list of all the possible connected nodes and edges in between
      * @param node new Node to enter the graph
      */
     public void addNode(Node node){
-        List<Edge> edges = new ArrayList<>();
-        graph.put(node, edges);
+        ArrayList<Edge> edges = new ArrayList<>();
+        this.put(node, edges);
         //System.out.print("added "+node.getName());
     }
 
@@ -39,20 +34,9 @@ public class Graph {
      */
     public void addEdge(Node source, Node destination, int time, String method){
         Edge edge = new Edge(source, destination, time, method);
-        if( !graph.containsKey(source)){ addNode(source); }
-        if( !graph.containsKey(destination)){ addNode(destination); }
-        graph.get(source).add(edge);
+        if( !this.containsKey(source)){ addNode(source); }
+        if( !this.containsKey(destination)){ addNode(destination); }
+        this.get(source).add(edge);
     }
-
-    /**
-     * getter for the Graph itself as a list
-     * @return a list of Nodes and Edges.
-     */
-    public HashMap<Node, List<Edge>> getGraph(){
-        return graph;
-    }
-
-
-
 
 }

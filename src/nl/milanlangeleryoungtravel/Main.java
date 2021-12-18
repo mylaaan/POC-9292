@@ -21,7 +21,7 @@ public class Main {
         graph.addEdge(rot, bos, 2, graph.TREIN);
         graph.addEdge(bos, utr, 2, graph.TREIN);
 
-        graph.getGraph().forEach((k, v) -> {
+        graph.forEach((k, v) -> {
             if(v.size() > 0 ) {
                 System.out.print("\n" + k.getName() + " is de start van een reis naar: ");
                 for (Edge edge : v) {
