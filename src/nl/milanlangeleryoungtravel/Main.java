@@ -2,6 +2,7 @@ package nl.milanlangeleryoungtravel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
 
@@ -32,10 +33,10 @@ public class Main {
         HashMap<Integer, String> routes = new HashMap<Integer, String>();
         Node from = new Node("Amsterdam");
         Node to = new Node("Utrecht");
-        beRecursive(routes, from, to, graph);
+        Navigator navigator = new Navigator(from, to, graph);
+        Map<Node, Edge> route = navigator.determineRoute(new HashMap<Node, Edge>());
+        navigator.printRoute(route);
     }
 
-    public static String beRecursive(HashMap<Integer, String> routes, Node from, Node to, Graph graph){
 
-    }
 }
