@@ -8,7 +8,7 @@ import java.util.*;
 public class Node {
 
     public String name;
-    private HashMap<Node, Edge> route = new HashMap<>();
+    private LinkedHashMap<Node, Edge> route = new LinkedHashMap<>();
     private int totalTime = 0;
 
     /**
@@ -36,7 +36,7 @@ public class Node {
             return false;
         }
         Node n = (Node) other;
-        return ((Node) other).getName() == this.name;
+        return ((Node) other).getName().equals(this.name);
     }
 
     /**
@@ -56,24 +56,13 @@ public class Node {
         return totalTime;
     }
 
-    public void setTotalTime(int time){
-        totalTime = time;
-    }
 
     public void addRoutePart(Node node, Edge edge){
-        Edge edgy = new Edge(edge.getSource(), edge.getDestination(), edge.getTime(), edge.getMethod());
-        route = node.getRoute();
-        System.out.println(node.getName() +" <=> "+edgy.getDestinationName()+"/"+getName());
-        route.put(node, edgy);
-        totalTime += edgy.getTime() + node.getTotalTime();
+        route.clear();
+        route.putAll(node.getRoute());
+        route.put(node, edge);
+        totalTime += edge.getTime() + node.getTotalTime();
     }
-
-//    public void setShortRoute(HashMap<Node, Edge> route){
-//        shortRoute = route;
-//        for(Map.Entry<Node, Edge> currentRoute : shortRoute.entrySet() ) {
-//            totalTime += currentRoute.getValue().getTime();
-//        }
-//    }
 
     public String toString() { return name; }
 

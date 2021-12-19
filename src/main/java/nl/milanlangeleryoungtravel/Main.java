@@ -1,57 +1,59 @@
 package nl.milanlangeleryoungtravel;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
-        System.out.print("Let's do this thing!\n");
+    public static void main(String[] args) throws IOException {
         Graph graph = new Graph();
-        Node ams = new Node("Amsterdam");
-        Node rot = new Node("Rotterdam");
-        Node utr = new Node("Utrecht");
-        Node bos = new Node("Den Bosch");
-        Node ens = new Node("Enschede");
-
-        graph.addEdge(ams, rot, 9, graph.TREIN);
-//        graph.addEdge(ams, ens, 18, graph.TREIN);
-        graph.addEdge(ams, utr, 15, graph.TREIN);
-        graph.addEdge(rot, bos, 1, graph.TREIN);
-        graph.addEdge(rot, utr, 26, graph.TREIN);
-        graph.addEdge(bos, utr, 2, graph.TREIN);
-        graph.addEdge(utr, ens, 47, graph.TREIN);
-
-
-        graph.forEach((k, v) -> {
-            if(v.size() > 0 ) {
-                System.out.print("\n" + k.toString() + " is de start van een reis naar: ");
-                for (Edge edge : v) {
-                    System.out.print(edge.getDestination() + ", ");
+        Feeder feeder = new Feeder();
+        feeder.populate(graph);
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n\n===================================================================================");
+            System.out.println("===================================================================================");
+            System.out.println("Waar vandaan?");
+            String cityFrom = scanner.nextLine();
+            Node from = new Node(cityFrom);
+            if (graph.containsKey(from)) {
+                System.out.println("Waar wil je heen?");
+                String cityTo = scanner.nextLine();
+                if (!cityTo.isEmpty() && graph.containsKey(new Node(cityTo))) {
+                    Navigator navigator = new Navigator(new Node(cityFrom), new Node(cityTo), graph);
+                    Node endPoint = navigator.determineRoute();
+                    if (endPoint.getName() != "Timboektoe") {
+                        System.out.print("\nDe reis gaat " + printTime(endPoint.getTotalTime()) + "duren");
+                        if( endPoint.getRoute().size() > 1 ){
+                            System.out.print(" waarvoor je " + (endPoint.getRoute().size()-1) + " keer moet overstappen\n");
+                        }
+                        navigator.printRoute(endPoint.getRoute());
+                    } else {
+                        System.out.println("Geen route gevonden naar bestemming");
+                    }
                 }
+
+            } else {
+                System.out.println("Geen bestemming gevonden voor route");
             }
-        });
-        System.out.println("\n\n");
+        }
 
-        Node from = new Node("Amsterdam");
-        Node to = new Node("Enschede");
-        Navigator navigator = new Navigator(from, to, graph);
-        Map<Node, Edge> route = navigator.determineRoute();
-        System.out.println("\n\n");
-//        navigator.printRoute(route);
+    }
 
-//        HashMap<Integer, String> blabla = new HashMap<Integer, String>();
-//        blabla.put(1, "hoi");
-//        blabla.put(2, "hoii");
-//        blabla.put(3, "hoiii");
-//        blabla.put(4, "hoiiii");
-//        for( Map.Entry<Integer, String> entry : blabla.entrySet()){
-//            System.out.println(entry.getKey() + " betekend: " + entry.getValue());
-//            if(entry.getKey() == 3){
-//                blabla.put(5, "hoiiiii");
-//            }
-//        }
+    public static String printTime(int minutes){
+        if( minutes < 60 ){
+            return minutes + ( minutes < 2 ? " minuut " : " minuten ");
+        }
+        if(minutes % 60 == 0){
+            return minutes / 60 + " uur ";
+        }
+        int hours = (int) Math.floor(minutes / 60 );
+        minutes = minutes % 60;
+        return hours + " uur en " + minutes + (minutes < 2 ? " minuut " : " minuten ");
     }
 
 

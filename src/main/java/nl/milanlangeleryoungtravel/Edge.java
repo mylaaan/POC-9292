@@ -40,7 +40,7 @@ public class Edge {
 
     public String getMethod(){ return method; }
 
-    public String toString(){ return " in de " + method + " voor " + time + " minuten naar " + destination.getName();}
+    public String toString(){ return " in de " + method + " voor " + Main.printTime(time ) + "naar " + destination.getName();}
 
 
 }

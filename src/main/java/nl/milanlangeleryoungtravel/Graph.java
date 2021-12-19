@@ -12,6 +12,7 @@ public class Graph extends HashMap<Node, ArrayList<Edge>> {
 
     public static final String BUS = "bus";
     public static final String TREIN = "trein";
+    public static final String METRO = "metro";
 
 
     /**
