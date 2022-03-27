@@ -1,0 +1,1 @@
+This is a Proof of concept for a public transport route planner. The name is based on the planner 9292 based in The Netherlands.
